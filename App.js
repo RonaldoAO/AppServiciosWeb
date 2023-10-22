@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Dimensions, Pressable, StyleSheet, Text, TextInput, View, } from 'react-native';
 import { Asset } from 'expo-asset';
 import AppLoading from 'expo-app-loading';
 import styles from './styles';
 import Svg, { Image, Ellipse, ClipPath } from 'react-native-svg';
-import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay} from 'react-native-reanimated'
+import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay } from 'react-native-reanimated'
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigations from './App/Navigations/TabNavigations';
+import { UserLocationContext } from './App/Context/UserLocationContext';
+import * as Location from 'expo-location';
 
 
 export default function App() {
+  const [location, setLocation] = useState(null);
+  const [showHomePage, setShowHomePage] = useState(false);
 
-  const[showHomePage, setShowHomePage] = useState(false);
+  useEffect(() => {
+    (async () => {
+
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      console.log(location);
+    })();
+  }, [showHomePage]);
 
   const { height, width } = Dimensions.get('window');
   const imagePosition = useSharedValue(1);
@@ -27,23 +44,23 @@ export default function App() {
     const inteporlation = interpolate(imagePosition.value, [0, 1], [250, 0])
     return {
       opacity: withTiming(imagePosition.value, { duration: 500 }),
-      transform: [{translateY: withTiming(inteporlation, {duration:1000})}]
+      transform: [{ translateY: withTiming(inteporlation, { duration: 1000 }) }]
     }
   })
 
-  const closseButtomContainerStyle = useAnimatedStyle(() =>{
-    const inteporlation  = interpolate(imagePosition.value, [0, 1], [180, 360])
-    return{
-      opacity: withTiming(imagePosition == 1 ? 0 :1, {duration: 1000}),
-      transform: [{rotate: withTiming( inteporlation + "deg", {duration:1000})}]
+  const closseButtomContainerStyle = useAnimatedStyle(() => {
+    const inteporlation = interpolate(imagePosition.value, [0, 1], [180, 360])
+    return {
+      opacity: withTiming(imagePosition == 1 ? 0 : 1, { duration: 1000 }),
+      transform: [{ rotate: withTiming(inteporlation + "deg", { duration: 1000 }) }]
     }
   })
 
   const formAnimatedStyle = useAnimatedStyle(() => {
-    return{
-      opacity: imagePosition.value === 0  
-      ? withDelay(400, withTiming(1,{duration:800}))
-      : withTiming(0, {duration:300})
+    return {
+      opacity: imagePosition.value === 0
+        ? withDelay(400, withTiming(1, { duration: 800 }))
+        : withTiming(0, { duration: 300 })
     }
   })
 
@@ -53,7 +70,7 @@ export default function App() {
   /**
    * INTRO
    */
-  if(!showHomePage){
+  if (!showHomePage) {
     return (
       <Animated.View style={styles.container}>
         <Animated.View style={[StyleSheet.absoluteFill, imageAnimatedStyle]}>
@@ -82,26 +99,30 @@ export default function App() {
               <Text style={styles.contentText}>Aun no tienes una cuenta?</Text><Text style={styles.link}> Registrate</Text>
             </View>
           </Animated.View>
-          
+
           <Animated.View style={[styles.form, formAnimatedStyle]}>
-            <TextInput placeholder='Email' placeholderTextColor="rgba(0,0,0,0.2)" style={styles.textInput}/>
-            <TextInput placeholder='FullName' placeholderTextColor="rgba(0,0,0,0.2)" style={styles.textInput}/>
-            <TextInput placeholder='Password' placeholderTextColor="rgba(0,0,0,0.2)" style={styles.textInput}/> 
-            <Pressable onPress={() =>{setShowHomePage(true)}}  style={styles.button}>
+            <TextInput placeholder='Email' placeholderTextColor="rgba(0,0,0,0.2)" style={styles.textInput} />
+            <TextInput placeholder='FullName' placeholderTextColor="rgba(0,0,0,0.2)" style={styles.textInput} />
+            <TextInput placeholder='Password' placeholderTextColor="rgba(0,0,0,0.2)" style={styles.textInput} />
+            <Pressable onPress={() => { setShowHomePage(true) }} style={styles.button}>
               <Text style={styles.contentText}>Entrar</Text>
             </Pressable>
           </Animated.View>
         </View>
-  
+
       </Animated.View>
     );
   }
+
   
-  return(
+
+  return (
     <View style={styles.main_container}>
-      <NavigationContainer>
-        <TabNavigations/>
-      </NavigationContainer>
+      <UserLocationContext.Provider value={{ location, setLocation }}>
+        <NavigationContainer>
+          <TabNavigations />
+        </NavigationContainer>
+      </UserLocationContext.Provider>
     </View>
   );
   /**
