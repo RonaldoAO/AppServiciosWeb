@@ -20,3 +20,7 @@ Para cargar este proyecto:
   npm start
 ```
 
+
+<img src="assets/capture/capture01.png" alt="Bienvenida" height="500">
+<img src="assets/capture/capture03.png" alt="Bienvenida" height="490">
+<img src="assets/capture/capture02.png" alt="Bienvenida" height="500">

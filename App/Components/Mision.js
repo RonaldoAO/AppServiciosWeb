@@ -1,26 +1,28 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import React from 'react';
 import Button from './Button';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function Mision() {
+    const navigation = useNavigation();
     return (
-        <View style={styles.tarjet}>
-            <View style={styles.target_head}>
+        <View style={styles2.tarjet}>
+            <View style={styles2.target_head}>
                 <View>
-                    <Text style={styles.title}>Misión Dia de Muertos</Text>
-                    <Text style={styles.text}>Numero de logros: 7</Text>
+                    <Text style={styles2.title}>Misión Dia de Muertos</Text>
+                    <Text style={styles2.text}>Numero de logros: 7</Text>
                 </View>
-                <Image source={require('../../assets/medalla01.png')} style={styles.image}></Image>
+                <Image source={require('../../assets/medalla01.png')} style={styles2.image}/>
             </View>
-            <View style={styles.target_body}>
-                <Text style={styles.text}>El dia de Muertos es una tradición mexicana celebrada
+            <View style={styles2.target_body}>
+                <Text style={styles2.text}>El dia de Muertos es una tradición mexicana celebrada
                     el mes Noviembre en la que se honra la memoria de los muertos</Text>
             </View>
-            <View style={styles.target_bottom}>
+            <View style={styles2.target_bottom}>
                 <Button                  
                     title='Iniciar'
-                    
+                    onPress = {() => navigation.navigate('History1')}R
                 />          
                 <Button                  
                     title='Ver mas'
@@ -28,13 +30,14 @@ export default function Mision() {
                 
             </View>
         </View>
-    )
-}
+    );
+};
 
-styles = StyleSheet.create({
+styles2 = StyleSheet.create({
     tarjet: {
         backgroundColor: '#534385',
         marginTop:20,
+        marginBottom:0, 
         margin: 10,
         paddingVertical:10, 
         paddingHorizontal: 20
@@ -66,4 +69,4 @@ styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-around'
     }
-})
+});

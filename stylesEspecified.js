@@ -52,7 +52,11 @@ const styles = StyleSheet.create({
     },
     form2:{
         zIndex:2,
-marginBottom:-300,
+        marginBottom:-350,
+    },
+    form3:{
+        zIndez:1,
+        marginBottom:80,
     },
     closeButtomContainer:{
         height:40,

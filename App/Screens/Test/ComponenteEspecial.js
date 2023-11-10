@@ -1,11 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import PostList from '../Components/PostList'
 
-export default function Home() {
+export default function ComponenteEspecial() {
   return (
     <View>
-      <PostList/>
+      <Text>ComponenteEspecial</Text>
     </View>
   )
 }

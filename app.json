@@ -20,20 +20,35 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff",
-        "googleMaps": "AIzaSyDMMTBiXn5vkPVLGb6-2idT7_j-IqDaqzc"
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ],
+      "package": "com.maskatezta.Gamificacion",
+      "config":{
+        "googleMaps":{
+          "apiKey": "AIzaSyA_IdzKez5qoH52KFCHOk8UlLrsZB9BFOo"
+        }
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins":[
+    "plugins": [
       [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow Explore Place to use your location."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "92cbc4e1-a28a-4ded-8dad-11cc98055379"
+      }
+    }
   }
 }
