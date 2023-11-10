@@ -125,7 +125,7 @@ export default function Explore() {
           <View>
             <TextInput placeholder=' Seleccionar Lugar ' style={styles.searchBar} />
           </View>
-
+          
           {data === undefined && <Mision />}
           <MisionEspecial />
           <MisionPersonalizada />

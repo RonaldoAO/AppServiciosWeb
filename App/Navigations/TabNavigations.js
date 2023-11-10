@@ -20,6 +20,7 @@ export default function TabNavigations({route, navigation}) {
     if(route.params?.datosAAgregar){
       const nuevosDatos = route.params.datosAAgregar;
       //console.log(nuevosDatos);
+      //COMPONENT RN
       setDatosFlatList([...datosFlatList, ...nuevosDatos]);
       
     }
