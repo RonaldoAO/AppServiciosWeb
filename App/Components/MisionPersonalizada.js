@@ -4,9 +4,11 @@ Son misiones que crean las empresas dentro de su local
 import { View, Text, StyleSheet, Image, Pressable, ImageBackground } from 'react-native';
 import React from 'react';
 import Button from './Button';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function MisionPersonalizada() {
+    const navigation = useNavigation();
     return (
         <View style={styles3.tarjet}>
             <ImageBackground
@@ -17,6 +19,7 @@ export default function MisionPersonalizada() {
                         <Text style={styles3.title}>Expociencias Oaxaca 2023</Text>
                         <Button
                             title='Iniciar'
+                            onPress = {() => navigation.navigate('test')}
                         />
 
                     </View>
@@ -47,7 +50,7 @@ styles3 = StyleSheet.create({
         color: 'white',
         fontWeight: '300',
         letterSpacing: 0.5,
-        fontSize: 11,
+        fontSize: 8,
         lineHeight: 20,
     },
     image: {

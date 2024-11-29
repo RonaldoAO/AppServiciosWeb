@@ -1,6 +1,4 @@
-# GAMIFICACION
-
-Esta aplicación fue creada como apoyo al turismo local
+# SERVICIOS WEB
 
 
 ## Como utilizar
@@ -19,8 +17,3 @@ Para cargar este proyecto:
 ```bash
   npm start
 ```
-
-
-<img src="assets/capture/capture01.png" alt="Bienvenida" height="500">
-<img src="assets/capture/capture03.png" alt="Bienvenida" height="490">
-<img src="assets/capture/capture02.png" alt="Bienvenida" height="500">

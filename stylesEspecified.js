@@ -14,6 +14,14 @@ const styles = StyleSheet.create({
         marginVertical:10,
         marginHorizontal:70,
     },
+    buttonCarrito:{
+        backgroundColor:'#D65C56',
+        height:35,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius: 35,
+        width:'48%'
+    },
     buttonText:{
         fontSize:15,
         fontWeight:'600',

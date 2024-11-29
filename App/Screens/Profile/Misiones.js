@@ -22,8 +22,8 @@ export default function Misiones() {
         margin: 10,
         padding: 10,
       }}>
-        <Text style={{fontWeight:'bold'}}>Dia de muertos</Text>
-        <Text>Logros restantes: 3/5 </Text>
+        <Text style={{fontWeight:'bold'}}>Actualiza tu perfil</Text>
+        <Text>Completa tus datos: 3/5 </Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom:10}}>
           <View style={{ width: Dimensions.get('screen').width * 0.80, justifyContent: 'center' }}>
             <ProgressBar progress={0.5} color={MD3Colors.error50} />

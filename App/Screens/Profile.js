@@ -4,40 +4,58 @@ import Logros from './Profile/Logros';
 import Misiones from './Profile/Misiones';
 import Galeria from './Profile/Galeria';
 import HeaderProfile from './Profile/HeaderProfile';
+import CreateProduct from './CreateProduct';
+import PostList from '../Components/PostList';
+import { UserContext2 } from '../Context/UserContext2';
+import Pedidos from './Profile/Pedidos';
+import { Modal, Portal, Text as TextP, Button as ButtonP, PaperProvider } from 'react-native-paper';
+
+
 
 export default function Profile() {
-  const [activeComponent, setActiveComponent] = useState(null);
+  const [activeComponent, setActiveComponent] = useState('Pedidos');
+  const { user } = React.useContext(UserContext2)
 
   const renderComponent = (componentName) => {
     switch (componentName) {
-      case 'Logros':
-        return <Logros/>;
-      case 'Misiones':
-        return <Misiones/>;
+      case 'Pedidos':
+        return <Pedidos />;
       case 'Galeria':
-        return <Galeria/>;
+        return <PostList showButtons={true} usuario={user} />;
+      case 'CreateProduct':
+        return <CreateProduct usuario={user} />
       default:
-        return <Logros/>;
+        return <Pedidos />;
     }
   };
+  const [visible, setVisible] = React.useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = { backgroundColor: 'white', padding: 20 };
 
   return (
     <View>
-      <HeaderProfile/>
-      <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-        <Pressable style={styles.button} onPress={() => setActiveComponent('Logros')}>
-          <Text style={styles.text}>Logros</Text>
+      <HeaderProfile />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+
+        <Pressable style={[styles.button, { backgroundColor: `${activeComponent == 'Pedidos' ? '#727272' : '#d9d9d9'}` }]} onPress={() => setActiveComponent('Pedidos')}>
+          <Text style={[styles.text, { color: `${activeComponent == 'Pedidos' ? 'white' : 'black'}` }]}>Pedidos</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={() => setActiveComponent('Misiones')}>
-          <Text style={styles.text}>Misiones</Text>
+        <Pressable style={[styles.button, { backgroundColor: `${activeComponent == 'Galeria' ? '#727272' : '#d9d9d9'}` }]} onPress={() => setActiveComponent('Galeria')}>
+          <Text style={[styles.text, { color: `${activeComponent == 'Galeria' ? 'white' : 'black'}` }]}>Mis productos</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={() => setActiveComponent('Galeria')}>
-          <Text style={styles.text}>Galeria</Text>
+        <Pressable style={[styles.button, {
+          backgroundColor: `${activeComponent == 'CreateProduct' ? '#727272' : '#d9d9d9'}`,
+        }]} onPress={() => setActiveComponent('CreateProduct')}>
+          <Text style={[styles.text, { color: `${activeComponent == 'CreateProduct' ? 'white' : 'black'}` }]}>Nuevo producto</Text>
         </Pressable>
       </View>
+      
       <View>
         {renderComponent(activeComponent)}
       </View>
+      
     </View>
 
   )
@@ -49,7 +67,6 @@ styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 50,
-    backgroundColor: '#D9D9D9',
   },
   text: {
     fontSize: 14,

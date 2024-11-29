@@ -22,7 +22,7 @@ export default function Mision() {
             <View style={styles2.target_bottom}>
                 <Button                  
                     title='Iniciar'
-                    onPress = {() => navigation.navigate('History1')}R
+                    onPress = {() => navigation.navigate('Producto')}
                 />          
                 <Button                  
                     title='Ver mas'

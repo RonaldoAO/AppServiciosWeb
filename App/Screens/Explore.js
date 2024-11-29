@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput, Dimensions, FlatList, ScrollView, SectionList, SafeAreaView, StatusBar, Button, Pressable, Image } from 'react-native'
+import { StyleSheet, View, Text, TextInput, Dimensions, FlatList, ScrollView, SectionList, SafeAreaView, StatusBar, Button, Pressable, Image, Platform } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import GoogleMapView from '../Home/GoogleMapView'
 import Anuncio from '../Home/Anuncio'
@@ -48,43 +48,43 @@ export default function Explore() {
         </View>
 
         <ScrollView>
-        <GoogleMapView />
-        <View>
-          <TextInput placeholder=' Seleccionar Lugar ' style={styles.searchBar} />
-        </View>
-        {data !== undefined &&
-          <Pressable>
-            <View style={{
-              margin: 20,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
+          <GoogleMapView />
+          <View>
+            <TextInput placeholder=' Seleccionar Lugar ' style={styles.searchBar} />
+          </View>
+          {data !== undefined &&
+            <Pressable>
+              <View style={{
+                margin: 20,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
 
 
 
-              <View>
-                <Text>Mision 01.- Prueba el pan de muerto</Text>
-                <Text style={{ fontSize: 10 }}>Pulsa para ver opciones</Text>
+                <View>
+                  <Text>Mision 01.- Prueba el pan de muerto</Text>
+                  <Text style={{ fontSize: 10 }}>Pulsa para ver opciones</Text>
+                </View>
+
+
+                <Image source={require('../../assets/pan-de-los-muertos.png')} style={{ width: 40, height: 40 }} />
+
               </View>
-
-
-              <Image source={require('../../assets/pan-de-los-muertos.png')} style={{ width: 40, height: 40 }} />
-
-            </View>
-          </Pressable>
-        }
-        <Divider />
-        {data && data.map((location, index ) => (
-          <Card style={{margin:20}} key={location.id                                                                                                                                                                                                                                                                                                                                                 }>
+            </Pressable>
+          }
+          <Divider />
+          {data && data.map((location, index) => (
+            <Card style={{ margin: 20 }} key={location.id}>
               <Card.Cover
-              
-                source={{uri: location.uri}}
+
+                source={{ uri: location.uri }}
               />
-              <Text style={{marginHorizontal:10, fontWeight:'bold'}}>{location.nombre}</Text>
-              <Text style={{margin:10}}>{location.descripcion}</Text>
-           
-          </Card>
-        ))}
+              <Text style={{ marginHorizontal: 10, fontWeight: 'bold' }}>{location.nombre}</Text>
+              <Text style={{ margin: 10 }}>{location.descripcion}</Text>
+
+            </Card>
+          ))}
         </ScrollView>
 
       </SafeAreaView>
@@ -125,7 +125,7 @@ export default function Explore() {
           <View>
             <TextInput placeholder=' Seleccionar Lugar ' style={styles.searchBar} />
           </View>
-          
+
           {data === undefined && <Mision />}
           <MisionEspecial />
           <MisionPersonalizada />
