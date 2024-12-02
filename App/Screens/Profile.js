@@ -9,6 +9,7 @@ import PostList from '../Components/PostList';
 import { UserContext2 } from '../Context/UserContext2';
 import Pedidos from './Profile/Pedidos';
 import { Modal, Portal, Text as TextP, Button as ButtonP, PaperProvider } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -19,7 +20,7 @@ export default function Profile() {
   const renderComponent = (componentName) => {
     switch (componentName) {
       case 'Pedidos':
-        return <Pedidos />;
+        return <Pedidos usuario={user}/>;
       case 'Galeria':
         return <PostList showButtons={true} usuario={user} />;
       case 'CreateProduct':

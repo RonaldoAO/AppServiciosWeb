@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Dimensions, Modal, Pressable, StyleSheet, Text, TextInput, View, } from 'react-native';
 import { Asset } from 'expo-asset';
 import stylesE from './stylesEspecified';
 import Svg, { Image, Ellipse, ClipPath } from 'react-native-svg';
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, runOnJS } from 'react-native-reanimated'
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useIsFocused } from '@react-navigation/native';
 import TabNavigations from './App/Navigations/TabNavigations';
 import { UserLocationContext } from './App/Context/UserLocationContext';
 import * as Location from 'expo-location';
@@ -30,9 +30,10 @@ const auth = getAuth(app);
 
 
 
-export default function App() {
+
+export default function App({route}) {
   const [location, setLocation] = useState(null);
-  const [showHomePage, setShowHomePage] = useState(1);
+  const [showHomePage, setShowHomePage] = route ? useState(route.params.showHomePage) : useState(1);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [correo, setCorreo] = useState('');
@@ -40,9 +41,11 @@ export default function App() {
   const [nombre, setNombre] = useState('');
   const [user, setUser] = useState(null);
   const [error, setError] = useState('ERROR')
+  
 
-
-
+  useEffect(() =>  {
+    console.log('Componente Recargado')
+  },[])
 
   const handleCreateAccount = async () => {
     //Registrar
@@ -53,7 +56,7 @@ export default function App() {
         "email": correo,
         password
       })
-
+      setUser(response.data);
       setShowHomePage(3)
     } catch (error) {
       Alert.alert(error);
@@ -68,6 +71,7 @@ export default function App() {
         "email": correo,
         password
       })
+      console.log("Usuario logeado",response.data)
       setUser(response.data);
       setShowHomePage(3)
     } catch (error) {
@@ -82,7 +86,7 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-
+      console.log("RECARGO")
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
@@ -95,7 +99,9 @@ export default function App() {
     })();
   }, [showHomePage]);
 
+  
 
+ 
   const [visible, setVisible] = React.useState(false);
 
   const showDialog = () => setVisible(true);
@@ -144,10 +150,17 @@ export default function App() {
     imagePosition.value = 0
     if (!isRegistering) runOnJS(setIsRegistering)(true);
   }
+
+  const handleLogout = () => {
+    setUser(null); // Limpiar los datos del usuario 
+    setShowHomePage(1);
+  } // Volver a la página de login };
   /**
    * INTRO
    */
+
   
+
   if (showHomePage == 1) {
     return (
       <UserProvider>
@@ -175,7 +188,7 @@ export default function App() {
             </Pressable>
           </Animated.View>
 
-          
+
 
           <View style={{ height: "20%" }}>
             <Animated.View style={[stylesE.form2, buttonsAnimatedStyle]}>
@@ -192,9 +205,9 @@ export default function App() {
 
                 <TextInput placeholder='Email' onChangeText={e => setCorreo(e)} placeholderTextColor="rgba(0,0,0,0.2)" style={stylesE.textInput} />
                 <TextInput placeholder='Nombre de Usuario' onChangeText={(e) => setNombre(e)} placeholderTextColor="rgba(0,0,0,0.2)" style={stylesE.textInput} />
-                <TextInput placeholder='Contraseña' onChangeText={(e) => setPassword(e)} placeholderTextColor="rgba(0,0,0,0.2)" style={stylesE.textInput} 
-                  secureTextEntry={true} textContentType='password' 
-                  />
+                <TextInput placeholder='Contraseña' onChangeText={(e) => setPassword(e)} placeholderTextColor="rgba(0,0,0,0.2)" style={stylesE.textInput}
+                  secureTextEntry={true} textContentType='password'
+                />
                 {!isLoading ? (
                   <Pressable onPress={handleCreateAccount} style={stylesE.button}>
                     <Text style={stylesE.contentText}>Registrar</Text>
@@ -214,12 +227,12 @@ export default function App() {
 
                 <TextInput placeholder='Correo/Usuario' onChangeText={e => setCorreo(e)} placeholderTextColor="rgba(0,0,0,0.2)" style={stylesE.textInput} />
                 <TextInput placeholder='Password' onChangeText={(e) => setPassword(e)} placeholderTextColor="rgba(0,0,0,0.2)" style={stylesE.textInput}
-                 secureTextEntry={true} textContentType='password' />
-                
+                  secureTextEntry={true} textContentType='password' />
+
                 {
-                  visible && <Text style={{color:'#D65C56', marginHorizontal:50, paddingLeft:10, marginVertical:10}}>Correo o contraseña incorrectos</Text>
+                  visible && <Text style={{ color: '#D65C56', marginHorizontal: 50, paddingLeft: 10, marginVertical: 10 }}>Correo o contraseña incorrectos</Text>
                 }
-                
+
 
                 {!isLoading ? (
                   <Pressable onPress={handleSignIn} style={stylesE.button}>
@@ -253,15 +266,15 @@ export default function App() {
           <UserProvider>
             <DataProvider>
               <CartProvider>
-              <NavigationContainer>
-                <Stack.Navigator>
-                  <Stack.Screen name="Home" component={TabNavigations} options={{ headerShown: false, header: null }} />
-                  <Stack.Screen name="History1" component={DM1} options={{ headerShown: false, header: null, }} />
-                  <Stack.Screen name="test" component={Ventana01} />
-                  <Stack.Screen name="Producto" component={CreateProduct} />
-                  <Stack.Screen name="Ventana02" component={Ventana02} />
-                </Stack.Navigator>
-              </NavigationContainer>
+                <NavigationContainer>
+                  <Stack.Navigator>
+                    <Stack.Screen name="Home" component={TabNavigations} options={{ headerShown: false, header: null }} />
+                    <Stack.Screen name="History1" component={DM1} options={{ headerShown: false, header: null, }} />
+                    <Stack.Screen name="test" component={Ventana01} />
+                    <Stack.Screen name="Producto" component={CreateProduct} />
+                    <Stack.Screen name="Ventana02" component={Ventana02} />                
+                  </Stack.Navigator>
+                </NavigationContainer>
               </CartProvider>
             </DataProvider>
           </UserProvider>

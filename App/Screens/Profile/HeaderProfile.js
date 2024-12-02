@@ -5,11 +5,12 @@ import { getAuth } from 'firebase/auth'
 import { UserContext } from '../../Context/UserContext';
 import { UserContext2 } from '../../Context/UserContext2';
 import { Ionicons } from '@expo/vector-icons';
-
+import RNRestart from 'react-native-restart'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator, Divider } from 'react-native-paper';
 import stylesE from '../../../stylesEspecified';
 import axios from 'axios';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 
 export default function HeaderProfile() {
   const auth = getAuth(app);
@@ -20,8 +21,12 @@ export default function HeaderProfile() {
   const [modalVisible, setModalVisible] = useState(false);
   const [screenConfiguration, setScreenConfiguration] = useState(1)
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation()
+
+  
+
   const handleLogout = async () => {
-    setUser(null)
+    
   }
   const handleUpdateAccount = async () => {
     console.log('Entro')
@@ -35,16 +40,12 @@ export default function HeaderProfile() {
       const response = await axios.patch(`https://servdesarrollo-3.onrender.com/api/users/${user.user._id}`, {
         "name": nombre,
         "email": correo,
-      }, { headers }).then(response => {
-        console.log("RESPUESTA",response)
-        if (response.status != 200) {
-          setLoading(false)
+      }, { headers })
+      user.user = response.data.user
+
+      setLoading(false)
       setModalVisible(false)
       setScreenConfiguration(1)
-          Alert.alert(response.statusText);
-        }
-      })
-      
       
     } catch (error) {
       Alert.alert(error);
@@ -67,12 +68,11 @@ export default function HeaderProfile() {
 
               <Pressable onPress={() => {
                 setScreenConfiguration(2)
-                console.log(user)
               }}>
                 <Text style={styles.modalText}>Editar nombre/correo</Text>
               </Pressable>
               <Text style={styles.modalText}>Eliminar perfil</Text>
-              <Pressable onPress={handleLogout}>
+              <Pressable onPress={() => handleLogout()}>
               <Text style={styles.modalText}>Logout</Text>
               </Pressable>
               <Pressable

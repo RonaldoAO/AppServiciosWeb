@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Pressable } from "react-native";
+import { View, Text, TextInput, Pressable, Alert } from "react-native";
 import React, { useRef, useState } from "react";
 import stylesE from "../../stylesEspecified";
 import axios from "axios";
@@ -40,8 +40,8 @@ const CreateProduct = ({ route, usuario }) => {
 
 
     const postData = async () => {
-        try {
-            setLoading(true)
+        setLoading(true)
+        try {       
             const newProduct = {
                 nombre: nombre, descripcion,
                 precioUnitario: Number(precio),
@@ -49,7 +49,9 @@ const CreateProduct = ({ route, usuario }) => {
                 usuarioId: usuario.user._id
             };
             console.log(newProduct)
-            const response = await axios.post("https://servdesarrollo-3.onrender.com/api/producto", newProduct).then(setLoading(false));
+            const response = await axios.post("https://servdesarrollo-3.onrender.com/api/producto", newProduct);
+            setLoading(false)
+            Alert.alert('Producto creado correctamente')
             refName.current.clear();
             refDescripcion.current.clear()
             refPrecio.current.clear()

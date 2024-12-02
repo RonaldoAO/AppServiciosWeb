@@ -35,21 +35,9 @@ export const CartProvider = ({ children }) => {
     };
 
     // Función para vaciar el carrito
-    const clearCart = () => {
-        Alert.alert('Espera...', 'Esta seguro de querer salir de la compra?', [
-            {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-            },
-            {
-                text: 'OK', onPress: () => {
-                    setTotal(0)
+    const clearCart = () => {      
+        setTotal(0)
                     setCart([]);
-                }
-            },
-        ]);
-
     };
 
     return (
